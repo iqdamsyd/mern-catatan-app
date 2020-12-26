@@ -1,0 +1,84 @@
+.Form {
+  max-width: 400px;
+  max-height: 400px;
+  color: var(--text-dark-color);
+}
+
+.Form .container {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.Form .flex {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.Form .form-wrapper {
+  margin: 0;
+  padding: 40px;
+  border: 0;
+  border-radius: 30px;
+  background-color: #fff;
+  color: #333;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.Form form {
+  width: 100%;
+}
+
+.Form h1 {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.Form .form-control {
+  width: 100%;
+  height: 50px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #707070;
+  border-radius: 16px;
+  outline: none;
+}
+
+.Form .btn {
+  width: 120px;
+  height: 50px;
+  margin-left: 50%;
+  border: 0;
+  border-radius: 25px;
+  background-color: var(--accent-color);
+  color: var(--text-light-color);
+  transform: translateX(-50%);
+  font-size: 16px;
+  font-family: "montserratbold";
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.Form .btn:hover {
+  /* background-color: sandybrown; */
+}
+
+.Form p {
+  font-size: 14px;
+  align-self: center;
+}
+
+.Form a {
+  text-decoration: none;
+  color: var(--text-link-color);
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .Form .container {
+    margin: 0px;
+    padding: 0 5%;
+  }
+}

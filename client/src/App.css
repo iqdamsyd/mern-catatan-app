@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "great_wishesregular";
+  src: url("./css/fonts/great_wishes-webfont.woff2") format("woff2"),
+    url("./css/fonts/great_wishes-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "montserratbold";
+  src: url("./css/fonts/montserrat-bold-webfont.woff2") format("woff2"),
+    url("./css/fonts/montserrat-bold-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  max-width: 1400px;
+  margin: auto;
+  background-color: #8d5986;
+  font-family: "montserratbold";
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

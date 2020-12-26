@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --landing-background-color: #8d5986;
+  --accent-color: #d6b02e;
+  --text-light-color: #fff;
+  --text-dark-color: #666;
+  --text-link-color: #38c733;
+}

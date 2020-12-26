@@ -1,0 +1,17 @@
+.Landing {
+  margin: auto;
+  padding: 0;
+  color: #fff;
+}
+
+.Landing .grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+@media (max-width: 768px) {
+  .Landing .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr;
+  }
+}
