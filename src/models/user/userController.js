@@ -6,10 +6,9 @@ class UserController {
   async getAllUser(req, res, next) {
     try {
       const result = await this.userServices.getAllUser();
-      req.responseObject = result;
-      req.responseStatus = 200;
+      res.locals = result;
     } catch (e) {
-      req.responseObject = e;
+      return next(e);
     }
     return next();
   }
@@ -18,10 +17,9 @@ class UserController {
     try {
       const { body } = req;
       const result = await this.userServices.registerUser(body);
-      req.responseObject = result;
-      req.responseStatus = 201;
+      res.locals = result;
     } catch (e) {
-      req.responseObject = e;
+      return next(e);
     }
     return next();
   }
@@ -30,10 +28,20 @@ class UserController {
     try {
       const { body } = req;
       const result = await this.userServices.loginUser(body);
-      req.responseObject = result;
-      req.responseStatus = 200;
+      res.locals = result;
     } catch (e) {
-      req.responseObject = e;
+      return next(e);
+    }
+    return next();
+  }
+
+  async refreshToken(req, res, next) {
+    try {
+      const { body } = req;
+      const result = await this.userServices.refreshToken(body);
+      res.locals = result;
+    } catch (e) {
+      return next(e);
     }
     return next();
   }

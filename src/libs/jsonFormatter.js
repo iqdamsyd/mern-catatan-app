@@ -1,30 +1,8 @@
 module.exports = (req, res, next) => {
-  function formatError(req) {
-    return {
-      success: false,
-      error: {
-        code: req.responseObject.status,
-        message: req.responseObject.message,
-      },
-    };
-  }
-
-  function formatSuccess(req) {
-    return {
-      success: true,
-      code: req.responseStatus,
-      payload: req.responseObject,
-    };
-  }
-
+  let object = res.locals;
   let response, statusCode;
-  if (req.responseObject instanceof Error) {
-    response = formatError(req);
-    statusCode = response.error.code || 500;
-  } else {
-    response = formatSuccess(req);
-    statusCode = response.code;
-  }
+  response = { success: true, code: object.code, payload: object.result };
+  statusCode = response.code;
 
   response = JSON.stringify(response);
   res.header("Content-Length", Buffer.byteLength(response));

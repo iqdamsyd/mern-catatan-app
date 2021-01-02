@@ -15,7 +15,7 @@ router.post("/login", (req, res, next) => {
   userController.loginUser(req, res, next);
 });
 router.post("/refresh-token", (req, res, next) => {
-  res.send("Refresh Token");
+  userController.refreshToken(req, res, next);
 });
 router.delete("/logout", (req, res, next) => {
   res.send("Logout User");

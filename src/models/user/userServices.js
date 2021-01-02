@@ -1,18 +1,21 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
+const createStatus = require("http-status");
 
 const { userSchema } = require("../../libs/validateSchema");
-const { signAccessToken } = require("../../libs/jwtHelper");
-const secretKey = require("../../libs/config").SECRET_KEY;
+const {
+  signAccessToken,
+  signRefreshToken,
+  verifyRefreshToken,
+} = require("../../libs/jwtHelper");
 
 class UserService {
   async getAllUser() {
     try {
       const Users = mongoose.model("Users");
       const users = await Users.find({});
-
-      return users;
+      return { code: createStatus.OK, result: users };
     } catch (e) {
       throw createError.InternalServerError();
     }
@@ -29,7 +32,8 @@ class UserService {
       const newUser = new Users(result);
       const savedUser = await newUser.save();
       const accessToken = await signAccessToken(savedUser._id);
-      return { accessToken };
+      const refreshToken = await signRefreshToken(savedUser._id);
+      return { code: createStatus.OK, result: { accessToken, refreshToken } };
     } catch (e) {
       throw createError.BadRequest();
     }
@@ -47,9 +51,27 @@ class UserService {
       if (!isMatch) throw Error;
 
       const accessToken = await signAccessToken(user._id);
-      return { accessToken };
+      const refreshToken = await signRefreshToken(user._id);
+      return { code: createStatus.OK, result: { accessToken, refreshToken } };
     } catch (e) {
       throw createError.Unauthorized();
+    }
+  }
+
+  async refreshToken(body) {
+    try {
+      const { refreshToken } = body;
+      if (!refreshToken) throw Error;
+      const userId = await verifyRefreshToken(refreshToken);
+
+      const accessToken = await signAccessToken(userId);
+      const refToken = await signRefreshToken(userId);
+      return {
+        code: createStatus.OK,
+        result: { accessToken, refreshToken: refToken },
+      };
+    } catch (e) {
+      throw createError.InternalServerError();
     }
   }
 
