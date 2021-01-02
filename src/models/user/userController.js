@@ -1,6 +1,6 @@
 class UserController {
   constructor(userServices) {
-    this.userServices = require("../services/userServices");
+    this.userServices = require("../user/userServices");
   }
 
   async getAllUser(req, res, next) {
@@ -8,9 +8,8 @@ class UserController {
       const result = await this.userServices.getAllUser();
       req.responseObject = result;
       req.responseStatus = 200;
-    } catch (err) {
-      req.responseObject = err;
-      req.responseStatus = 400;
+    } catch (e) {
+      req.responseObject = e;
     }
     return next();
   }
@@ -21,23 +20,25 @@ class UserController {
       const result = await this.userServices.registerUser(body);
       req.responseObject = result;
       req.responseStatus = 201;
-    } catch (err) {
-      req.responseObject = err;
+    } catch (e) {
+      req.responseObject = e;
     }
     return next();
   }
 
-  async authenticateUser(req, res, next) {
+  async loginUser(req, res, next) {
     try {
       const { body } = req;
-      const result = await this.userServices.authenticateUser(body);
+      const result = await this.userServices.loginUser(body);
       req.responseObject = result;
       req.responseStatus = 200;
-    } catch (err) {
-      req.responseObject = err;
+    } catch (e) {
+      req.responseObject = e;
     }
     return next();
   }
+
+  async logoutUser() {}
 }
 
 module.exports = new UserController();

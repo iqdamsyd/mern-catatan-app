@@ -1,6 +1,6 @@
 class UserController {
   constructor(noteServices) {
-    this.noteServices = require("../services/noteServices");
+    this.noteServices = require("../note/noteServices");
   }
 
   async getNotes(req, res, next) {

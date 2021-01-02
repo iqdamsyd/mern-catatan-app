@@ -1,0 +1,11 @@
+.Book {
+  height: 100vh;
+  background-color: #64375e;
+  color: #fff;
+}
+
+.Book .grid {
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 80px auto;
+  gap: 0;
+}

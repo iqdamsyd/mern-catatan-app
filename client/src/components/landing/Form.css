@@ -1,7 +1,8 @@
 .Form {
-  max-width: 400px;
-  max-height: 400px;
+  min-width: 400px;
+  min-height: 400px;
   color: var(--text-dark-color);
+  justify-self: flex-start;
 }
 
 .Form .container {
@@ -59,15 +60,18 @@
   font-family: "montserratbold";
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-}
-
-.Form .btn:hover {
-  /* background-color: sandybrown; */
+  outline: none;
 }
 
 .Form p {
   font-size: 14px;
   align-self: center;
+}
+
+.Form .error-msg {
+  font-size: 14px;
+  align-self: flex-start;
+  color: red;
 }
 
 .Form a {
@@ -77,6 +81,10 @@
 }
 
 @media (max-width: 500px) {
+  .Form {
+    justify-self: center;
+  }
+
   .Form .container {
     margin: 0px;
     padding: 0 5%;

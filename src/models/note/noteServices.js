@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
 
-const secretKey = require("../configs/config").SECRET_KEY;
+const secretKey = require("../../libs/config").SECRET_KEY;
 
 class NoteServices {
   async getNotes(user_id) {

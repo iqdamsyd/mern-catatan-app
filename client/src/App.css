@@ -15,15 +15,12 @@
 }
 
 body {
-  max-width: 1400px;
   margin: auto;
-  background-color: #8d5986;
   font-family: "montserratbold";
 }
 
 .App {
   min-height: 100vh;
-  display: flex;
 }
 
 .flex {

@@ -1,8 +1,8 @@
 const express = require("express");
 const jwt = require("express-jwt");
 const router = express.Router();
-const noteController = require("../../controllers/noteController");
-const secretKey = require("../../configs/config").SECRET_KEY;
+const noteController = require("../../models/note/noteController");
+const secretKey = require("../../libs/config").SECRET_KEY;
 
 router.get(
   "/",

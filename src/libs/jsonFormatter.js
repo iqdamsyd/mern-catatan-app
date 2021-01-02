@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
   let response, statusCode;
   if (req.responseObject instanceof Error) {
     response = formatError(req);
-    statusCode = response.error.code;
+    statusCode = response.error.code || 500;
   } else {
     response = formatSuccess(req);
     statusCode = response.code;

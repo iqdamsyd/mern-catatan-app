@@ -35,7 +35,7 @@ class Database {
       process.exit(0);
     });
 
-    require("../models/userModel");
+    require("../models/user/userModel");
   }
 }
 

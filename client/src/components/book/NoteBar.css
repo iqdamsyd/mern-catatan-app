@@ -1,0 +1,24 @@
+.NoteBar {
+  min-height: 80px;
+  align-self: flex-start;
+  border-bottom: 0.5px solid #fff;
+}
+
+.NoteBar .container {
+  padding: 15px 40px;
+}
+
+.NoteBar .flex {
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.NoteBar .btn {
+  width: 120px;
+  height: 50px;
+  padding: 15px 20px;
+  color: var(--light-text-color);
+  font-size: 16px;
+  font-family: "montserratbold";
+  cursor: pointer;
+}

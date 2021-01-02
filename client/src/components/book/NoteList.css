@@ -1,0 +1,15 @@
+.NoteList {
+  height: 100%;
+  align-self: flex-start;
+  border-right: 0.5px solid #fff;
+}
+
+.NoteList .container {
+  margin: 0;
+  padding: 0;
+}
+
+.NoteList .flex {
+  justify-content: flex-end;
+  align-items: center;
+}
