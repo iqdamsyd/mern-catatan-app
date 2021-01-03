@@ -1,14 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const createError = require("http-errors");
 
+require("./libs/redis");
 const config = require("./libs/config");
 const jsonFormatter = require("./libs/jsonFormatter");
 const errorHandler = require("./libs/errorHandler");
-const { verifyAccessToken } = require("./libs/jwtHelper");
 const userRoutes = require("./routes/api/userRoutes");
-// const noteRoutes = require("./routes/api/noteRoutes");
 
 // Initialize the database
 const Database = require("./libs/database");
@@ -21,7 +19,7 @@ app.use(bodyParser.json());
 app.use(morgan("tiny"));
 
 // App Routes
-app.get("/", verifyAccessToken, (req, res) => {
+app.get("/", (req, res) => {
   res.send("Hello from express");
 });
 app.use("/api/users", userRoutes, jsonFormatter);
@@ -29,9 +27,6 @@ app.use("/api/users", userRoutes, jsonFormatter);
 
 // Log Errors
 // Client Errors
-// app.use(async (req, res, next) => {
-//   next(createError.NotFound());
-// });
 // Error Handler
 app.use(errorHandler);
 
