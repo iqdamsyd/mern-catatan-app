@@ -1,68 +1,105 @@
-class UserController {
-  constructor(noteServices) {
-    this.noteServices = require("../models/note/noteServices");
+const createStatus = require("http-status");
+const createError = require("http-errors");
+const mongoose = require("mongoose");
+const Users = require("../models/userModel");
+
+const get = async (req, res, next) => {
+  try {
+    const { aud } = req.payload;
+    const _id = mongoose.mongo.ObjectId(aud);
+    const notes = await Users.findById({ _id }, { notes: 1 });
+    res.locals.code = createStatus.OK;
+    res.locals.result = notes;
+  } catch (e) {
+    return next(createError.InternalServerError(e.message));
   }
+  next();
+};
 
-  async getNotes(req, res, next) {
-    try {
-      const user_id = req.user._id;
-      const result = await this.noteServices.getNotes(user_id);
-
-      req.responseObject = result;
-      req.responseStatus = 200;
-    } catch (err) {
-      req.responseObject = err;
-    }
-
-    return next();
+const create = async (req, res, next) => {
+  try {
+    const { aud } = req.payload;
+    const { title, content } = req.body;
+    const _id = mongoose.mongo.ObjectId(aud);
+    const result = await Users.findOneAndUpdate(
+      { _id },
+      {
+        // push new note
+        $push: { notes: { title, content } },
+      },
+      {
+        new: true,
+        projection: { username: 0, password: 0, notes: { $slice: -1 } },
+      }
+    );
+    res.locals.code = createStatus.CREATED;
+    res.locals.result = result;
+  } catch (e) {
+    console.log(e);
+    return next(createError.InternalServerError(e.message));
   }
+  next();
+};
 
-  async createNote(req, res, next) {
-    try {
-      const user_id = req.user._id;
-      const body = req.body;
-      const result = await this.noteServices.createNote(user_id, body);
+const update = async (req, res, next) => {
+  try {
+    const { aud } = req.payload;
+    const { title, content } = req.body;
+    const _id = mongoose.mongo.ObjectId(aud);
+    const note_id = mongoose.mongo.ObjectId(req.params.noteId);
 
-      req.responseObject = result;
-      req.responseStatus = 200;
-    } catch (err) {
-      req.responseObject = err;
-    }
+    const result = await Users.findOneAndUpdate(
+      { _id, "notes._id": note_id },
+      {
+        $set: {
+          "notes.$[elem].title": title,
+          "notes.$[elem].content": content,
+        },
+      },
+      {
+        arrayFilters: [{ "elem._id": note_id }],
+        new: true,
+        projection: { _id: 0, notes: { $elemMatch: { _id: note_id } } },
+      }
+    );
 
-    return next();
+    res.locals.code = createStatus.OK;
+    res.locals.result = result;
+  } catch (e) {
+    console.log(e);
+    return next(createError.InternalServerError(e.message));
   }
+  next();
+};
 
-  async updateNote(req, res, next) {
-    try {
-      const user_id = req.user._id;
-      const note_id = req.params.id;
-      const body = req.body;
-      const result = await this.noteServices.updateNote(user_id, note_id, body);
+const remove = async (req, res, next) => {
+  try {
+    const { aud } = req.payload;
+    const _id = mongoose.mongo.ObjectId(aud);
+    const note_id = mongoose.mongo.ObjectId(req.params.noteId);
+    const result = await Users.findOneAndUpdate(
+      { _id, "notes._id": note_id },
+      {
+        $pull: { notes: { _id: note_id } },
+      },
+      {
+        new: false,
+        projection: { _id: 0, notes: { $elemMatch: { _id: note_id } } },
+      }
+    );
 
-      req.responseObject = result;
-      req.responseStatus = 200;
-    } catch (err) {
-      req.responseObject = err;
-    }
-
-    return next();
+    res.locals.code = createStatus.OK;
+    res.locals.result = { note_id };
+  } catch (e) {
+    console.log(e);
+    return next(createError.InternalServerError(e.message));
   }
+  next();
+};
 
-  async deleteNote(req, res, next) {
-    try {
-      const user_id = req.user._id;
-      const note_id = req.params.id;
-      const result = await this.noteServices.deleteNote(user_id, note_id);
-
-      req.responseObject = result;
-      req.responseStatus = 200;
-    } catch (err) {
-      console.log(err);
-      req.responseObject = err;
-    }
-
-    return next();
-  }
-}
-
-module.exports = new UserController();
+module.exports = {
+  get,
+  create,
+  update,
+  remove,
+};
