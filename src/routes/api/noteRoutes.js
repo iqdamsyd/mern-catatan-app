@@ -1,31 +1,10 @@
 const express = require("express");
-const jwt = require("express-jwt");
 const router = express.Router();
-const noteController = require("../../models/note/noteController");
-const secretKey = require("../../libs/config").SECRET_KEY;
+const noteController = require("../../controllers/noteController");
 
-router.get(
-  "/",
-  jwt({ secret: secretKey, algorithms: ["HS256"] }),
-  (req, res, next) => noteController.getNotes(req, res, next)
-);
-
-router.post(
-  "/",
-  jwt({ secret: secretKey, algorithms: ["HS256"] }),
-  (req, res, next) => noteController.createNote(req, res, next)
-);
-
-router.put(
-  "/:id",
-  jwt({ secret: secretKey, algorithms: ["HS256"] }),
-  (req, res, next) => noteController.updateNote(req, res, next)
-);
-
-router.delete(
-  "/:id",
-  jwt({ secret: secretKey, algorithms: ["HS256"] }),
-  (req, res, next) => noteController.deleteNote(req, res, next)
-);
+router.get("/", noteController.get);
+router.post("/", noteController.create);
+router.put("/:noteId", noteController.update);
+router.delete("/:noteId", noteController.remove);
 
 module.exports = router;
