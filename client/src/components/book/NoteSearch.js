@@ -1,5 +1,4 @@
 import React from "react";
-import "../css/NoteSearch.css";
 
 function NoteSearch() {
   return (

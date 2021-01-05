@@ -1,0 +1,162 @@
+.Book {
+  height: 100vh;
+  background-color: #64375e;
+  color: #fff;
+}
+
+.Book .grid {
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 80px auto;
+  gap: 0;
+}
+
+/* NoteSearch */
+.NoteSearch {
+  min-height: 80px;
+  align-self: flex-start;
+  border-bottom: 0.5px solid #fff;
+  border-right: 0.5px solid #fff;
+  z-index: 1000;
+}
+
+.NoteSearch .container {
+  padding: 15px 40px;
+}
+
+.NoteSearch input {
+  width: 100%;
+  height: 50px;
+  padding: 15px 20px;
+  border: 0;
+  border-radius: 25px;
+  outline: none;
+}
+
+/* NoteBar */
+.NoteBar {
+  min-height: 80px;
+  align-self: flex-start;
+  border-bottom: 0.5px solid #fff;
+}
+
+.NoteBar .container {
+  padding: 15px 40px;
+}
+
+.NoteBar .flex {
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.NoteBar .btn {
+  width: 120px;
+  height: 50px;
+  padding: 15px 20px;
+  color: var(--light-text-color);
+  font-size: 16px;
+  font-family: "montserratbold";
+  cursor: pointer;
+}
+
+/* NoteList */
+.NoteList {
+  height: 100%;
+  align-self: flex-start;
+  border-right: 0.5px solid #fff;
+}
+
+.NoteList .container {
+  margin: 0;
+  padding: 0;
+}
+
+.NoteList .flex {
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* NoteItem */
+.NoteItem {
+  width: 100%;
+  height: 100px;
+  background-color: rgb(68, 6, 55);
+  border-bottom: 0.5px solid #fff;
+  color: #fff;
+}
+
+.NoteItem .container {
+  margin: 0 !important;
+  padding: 30px 20px !important;
+  cursor: pointer;
+}
+
+.NoteItem h1 {
+  font-size: 16px;
+}
+
+.NoteItem h2 {
+  font-size: 14px;
+  opacity: 0.5;
+}
+
+/* Paper */
+.Paper {
+  height: 100%;
+}
+
+.Paper .container {
+  margin: 0;
+  padding: 60px 80px;
+}
+
+.Paper input[name="title"] {
+  width: 100%;
+  background-color: #64375e;
+  border: 1px solid #fff;
+  font-size: 24px;
+  color: var(--ligth-text-color);
+  margin-bottom: 40px;
+  padding: 20px;
+}
+
+.Paper textarea {
+  width: 100%;
+  height: 60vh;
+  background-color: #64375e;
+  border: 1px solid #fff;
+  outline: none;
+  font-size: 24px;
+  color: var(--ligth-text-color);
+  margin-bottom: 40px;
+  padding: 20px;
+}
+
+.Paper .btn {
+  width: 120px;
+  height: 50px;
+  padding: 15px 20px;
+  border: 0;
+  border-radius: 25px;
+  outline: none;
+  background-color: var(--accent-color);
+  color: var(--light-text-color);
+  font-size: 16px;
+  font-family: "montserratbold";
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+.Paper .addNote {
+  position: absolute;
+  bottom: 60px;
+  right: 80px;
+  width: 80px;
+  height: 80px;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  color: #fff;
+  font-size: 80px;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+}

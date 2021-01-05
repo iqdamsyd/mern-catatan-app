@@ -1,5 +1,4 @@
 import React from "react";
-import "../css/Paper.css";
 
 function Paper(props) {
   return (

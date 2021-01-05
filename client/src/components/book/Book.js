@@ -3,7 +3,7 @@ import NoteSearch from "./NoteSearch";
 import NoteBar from "./NoteBar";
 import NoteList from "./NoteList";
 import Paper from "./Paper";
-import "../css/Book.css";
+import "./~Book.css";
 
 function Book() {
   return (

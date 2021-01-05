@@ -1,34 +1,36 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import NoteItem from "./NoteItem";
-import "../css/NoteList.css";
+import UserContext from "../../UserContext";
 
 function NoteList() {
-  const notes = [
-    {
-      id: 1,
-      title: "Judul 1",
-      content: "Kontennya ini..",
-      createdAt: new Date(2020, 2, 5).toLocaleDateString(),
+  const { user } = useContext(UserContext);
+  const [notes, setNotes] = useState([]);
+  const url = "/api/notes";
+  useEffect(
+    (
+      options = {
+        headers: { Authorization: `Bearer ${user.accessToken}` },
+      }
+    ) => {
+      axios
+        .get(url, options)
+        .then(function (res) {
+          console.log(res.data.payload.notes);
+          setNotes(res.data.payload.notes);
+        })
+        .catch(function (error) {
+          // console.log(error.response.data);
+        });
     },
-    {
-      id: 2,
-      title: "Judul 2",
-      content: "Kontennya ini..",
-      createdAt: new Date(2020, 3, 23).toLocaleDateString(),
-    },
-    {
-      id: 3,
-      title: "Judul 2",
-      content: "Kontennya ini..",
-      createdAt: new Date(2020, 7, 16).toLocaleDateString(),
-    },
-  ];
+    [setNotes, user.accessToken]
+  );
 
   return (
     <div className="NoteList">
       <div className="container">
         {notes.map((note) => (
-          <NoteItem key={note.id} note={note} />
+          <NoteItem key={note._id} note={note} />
         ))}
       </div>
     </div>
