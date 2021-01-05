@@ -1,16 +1,23 @@
 import React from "react";
 import Brand from "./Brand";
-import Form from "./Form";
-import "./Landing.css";
+import SignupForm from "./SignupForm";
+import LoginForm from "./LoginForm";
+import "./~Landing.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const Landing = () => {
   return (
-    <div className="Landing">
-      <div className="container grid">
-        <Brand />
-        <Form />
+    <Router>
+      <div className="Landing">
+        <div className="container grid">
+          <Brand />
+          <Switch>
+            <Route path="/" exact component={LoginForm} />
+            <Route path="/signup" component={SignupForm} />
+          </Switch>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 };
 

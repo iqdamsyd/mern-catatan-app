@@ -1,8 +1,7 @@
 import React from "react";
-import "./Brand.css";
 import logo from "../../brand-logo.svg";
 
-const Brand = () => {
+const Brand = (props) => {
   return (
     <div className="Brand">
       <div className="container flex">
