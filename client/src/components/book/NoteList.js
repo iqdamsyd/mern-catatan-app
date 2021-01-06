@@ -1,37 +1,25 @@
-import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import NoteItem from "./NoteItem";
-import UserContext from "../../UserContext";
+import authService from "../../services/auth.service";
+import noteService from "../../services/note.service";
 
 function NoteList() {
-  const { user } = useContext(UserContext);
+  const currentUser = authService.getCurrentUser();
   const [notes, setNotes] = useState([]);
-  const url = "/api/notes";
-  useEffect(
-    (
-      options = {
-        headers: { Authorization: `Bearer ${user.accessToken}` },
-      }
-    ) => {
-      axios
-        .get(url, options)
-        .then(function (res) {
-          console.log(res.data.payload.notes);
-          setNotes(res.data.payload.notes);
-        })
-        .catch(function (error) {
-          // console.log(error.response.data);
-        });
-    },
-    [setNotes, user.accessToken]
-  );
+  useEffect(() => {
+    noteService.getNotes().then((res) => {
+      setNotes(res.data.payload.notes);
+    });
+  }, []);
 
   return (
     <div className="NoteList">
       <div className="container">
-        {notes.map((note) => (
-          <NoteItem key={note._id} note={note} />
-        ))}
+        {notes
+          .sort((a, b) => (a.updatedAt > b.updatedAt ? -1 : 1))
+          .map((note) => (
+            <NoteItem key={note._id} note={note} />
+          ))}
       </div>
     </div>
   );

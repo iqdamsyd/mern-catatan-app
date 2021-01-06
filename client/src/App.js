@@ -1,20 +1,22 @@
 import "./App.css";
 import Landing from "./components/landing/Landing";
 import Book from "./components/book/Book";
-import UserContext from "./UserContext";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import AuthService from "./services/auth.service";
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(undefined);
 
-  return (
-    <div className="App">
-      <UserContext.Provider value={{ user, setUser }}>
-        {user ? <Book /> : <Landing />}
-      </UserContext.Provider>
-    </div>
-  );
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, []);
+
+  return <div className="App">{currentUser ? <Book /> : <Landing />}</div>;
 };
 
 export default App;

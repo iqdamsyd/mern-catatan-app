@@ -1,12 +1,17 @@
 import React from "react";
-import { useForm } from "../../useForm";
 import { Link } from "react-router-dom";
 
+import useForm from "../../hooks/useForm";
+import authService from "../../services/auth.service";
+
 const LoginForm = (props) => {
-  const loginUrl = "/api/users/login";
-  const [values, handleChange, handleSubmit, errorMsg] = useForm(
-    { username: "", password: "" },
-    loginUrl
+  const { values, handleChange, handleSubmit, errorMsg } = useForm(
+    {
+      username: "",
+      password: "",
+    },
+    authService.login,
+    "auth"
   );
 
   return (

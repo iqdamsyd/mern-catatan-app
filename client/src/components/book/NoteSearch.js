@@ -1,5 +1,4 @@
 import React from "react";
-
 function NoteSearch() {
   return (
     <div className="NoteSearch">
