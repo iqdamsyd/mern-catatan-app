@@ -13,7 +13,7 @@ const register = (body) => {
       if (response.data.payload.accessToken) {
         localStorage.setItem("user", JSON.stringify(response.data.payload));
       }
-      return response.data;
+      return response.data.payload;
     })
     .catch((error) => {
       throw error.response.data.error.message;
@@ -31,7 +31,7 @@ const login = (body) => {
       if (response.data.payload.accessToken) {
         localStorage.setItem("user", JSON.stringify(response.data.payload));
       }
-      return response.data;
+      return response.data.payload;
     })
     .catch((error) => {
       throw error.response.data.error.message;
@@ -67,7 +67,6 @@ const logout = () => {
       console.log(error.response.data);
     });
   localStorage.removeItem("user");
-  window.location.reload();
 };
 
 const getCurrentUser = () => {

@@ -7,14 +7,15 @@ import "./~Book.css";
 
 import NoteContext from "../../hooks/NoteContext";
 
-function Book() {
+function Book(props) {
   const [note, setNote] = useState({ title: "", content: "" });
+  const onUserLoggedOut = props.onUserLoggedOut;
 
   return (
     <div className="Book">
       <div className="container grid">
         <NoteSearch />
-        <NoteBar />
+        <NoteBar onUserLoggedOut={onUserLoggedOut} />
         <NoteContext.Provider value={{ note, setNote }}>
           <NoteList />
           <Paper />

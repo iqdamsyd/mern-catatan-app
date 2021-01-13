@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import useForm from "../../hooks/useForm";
+import useFormV2 from "../../hooks/useFormV2";
 import authService from "../../services/auth.service";
 
 const SignupForm = (props) => {
-  const { values, handleChange, handleSubmit, errorMsg } = useForm(
-    {
-      username: "",
-      password: "",
-    },
-    authService.register,
-    "auth"
-  );
+  const { values, handleChange } = useFormV2({ username: "", password: "" });
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    authService
+      .register(values)
+      .then((response) => {
+        props.onUserLoggedIn(response);
+      })
+      .catch((error) => {
+        setErrorMsg(error);
+      });
+  };
 
   return (
     <div className="Form">

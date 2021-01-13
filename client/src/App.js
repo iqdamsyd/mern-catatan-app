@@ -6,17 +6,35 @@ import { useState, useEffect } from "react";
 import AuthService from "./services/auth.service";
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const onUserLoggedIn = (token) => {
+    setCurrentUser(token);
+  };
+
+  const onUserLoggedOut = () => {
+    setCurrentUser(null);
+  };
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
-
-    if (user) {
-      setCurrentUser(user);
-    }
+    setCurrentUser(user);
   }, []);
 
-  return <div className="App">{currentUser ? <Book /> : <Landing />}</div>;
+  let toRender;
+  if (currentUser) {
+    toRender = (
+      <Book
+        user={currentUser}
+        currentUser={currentUser}
+        onUserLoggedOut={onUserLoggedOut}
+      />
+    );
+  } else {
+    toRender = <Landing onUserLoggedIn={onUserLoggedIn} />;
+  }
+
+  return <div className="App">{toRender}</div>;
 };
 
 export default App;

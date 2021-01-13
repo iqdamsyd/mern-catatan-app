@@ -1,11 +1,15 @@
 import React from "react";
 import authService from "../../services/auth.service";
 
-function NoteBar() {
+function NoteBar(props) {
+  const handleLogout = () => {
+    authService.logout();
+    props.onUserLoggedOut();
+  };
   return (
     <div className="NoteBar">
       <div className="container flex">
-        <span className="btn" onClick={authService.logout}>
+        <span className="btn" onClick={handleLogout}>
           Logout
         </span>
       </div>

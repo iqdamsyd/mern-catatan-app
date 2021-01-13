@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useForm = (initialValues, service, serviceAtion) => {
+const useForm = (initialValues, service) => {
   const [values, setValues] = useState(initialValues);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -13,6 +13,7 @@ const useForm = (initialValues, service, serviceAtion) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // call service
     service(values)
       .then(() => {
         window.location.reload();
