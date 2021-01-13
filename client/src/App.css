@@ -19,6 +19,20 @@ body {
   font-family: "montserratbold";
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --landing-background-color: #8d5986;
+  --accent-color: #d6b02e;
+  --text-light-color: #fff;
+  --text-dark-color: #666;
+  --text-link-color: #38c733;
+}
+
 .App {
   max-height: 100vh;
 }
@@ -32,8 +46,183 @@ body {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+/* Landing */
+.Landing {
+  height: 100vh;
+  background-color: var(--landing-background-color);
+  color: #fff;
+}
+
+.Landing .container {
+}
+
+.Landing .flex {
+  gap: 80px;
+}
+
+/* Extra small devices (potrait phones, less than 576px) */
+/* @media (max-width: 575.98px) {
+  .Landing .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr;
+    gap: 0;
+  }
+} */
+
+/* Small devices (landscape phones, less than 768px) */
+/* @media (max-width: 767.98px) {
+  .Landing .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr;
+    gap: 0;
+  }
+} */
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+  .Landing .flex {
+    flex-direction: column;
+  }
+  .Brand {
+    justify-self: center;
+  }
+  .Form {
+    justify-self: center;
+  }
+}
+
+/* Brand */
+.Brand {
+  max-width: 400px;
+  color: var(--text-light-color);
+}
+
+.Brand .container {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.Brand img {
+  width: 130px;
+  margin-bottom: 20px;
+}
+
+.Brand p {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.Brand .small {
+  font-size: 14px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: lighter;
+}
+
+.Brand .social-media {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.Brand .social-media img {
+  width: 20px;
+}
+
+/* Form */
+.Form {
+  /* width: 400px; */
+  /* height: 400px; */
+  color: var(--text-dark-color);
+}
+
+.Form .container {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.Form .flex {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.Form .form-wrapper {
+  margin: 0;
+  padding: 40px;
+  border: 0;
+  border-radius: 30px;
+  background-color: #fff;
+  color: #333;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.Form form {
+  width: 100%;
+}
+
+.Form h1 {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.Form .form-control {
+  width: 100%;
+  height: 50px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #707070;
+  border-radius: 16px;
+  outline: none;
+}
+
+.Form .btn {
+  width: 120px;
+  height: 50px;
+  margin-left: 50%;
+  border: 0;
+  border-radius: 25px;
+  background-color: var(--accent-color);
+  color: var(--text-light-color);
+  transform: translateX(-50%);
+  font-size: 16px;
+  font-family: "montserratbold";
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  outline: none;
+}
+
+.Form p {
+  font-size: 14px;
+  align-self: center;
+}
+
+.Form .error-msg {
+  font-size: 14px;
+  align-self: flex-start;
+  color: red;
+}
+
+.Form a {
+  text-decoration: none;
+  color: var(--text-link-color);
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .Form {
+    justify-self: center;
+  }
+
+  .Form .container {
+    margin: 0px;
+    padding: 0 5%;
+  }
 }

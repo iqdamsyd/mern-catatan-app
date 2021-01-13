@@ -4,7 +4,7 @@ import logo from "../../brand-logo.svg";
 const Brand = (props) => {
   return (
     <div className="Brand">
-      <div className="container flex">
+      <div className="container">
         <img src={logo} alt="brand-logo" />
         <p>
           Catatan is a free simple note application that lets you manage your
@@ -15,7 +15,7 @@ const Brand = (props) => {
           <br />
           The codes are available on my github pages.
         </p>
-        <div className="social-media flex">
+        <div className="social-media">
           <a href="twitter.com">
             <img
               src={process.env.PUBLIC_URL + "/twitter-logo.png"}
