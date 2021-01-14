@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import NoteItem from "./NoteItem";
-import authService from "../../services/auth.service";
 import noteService from "../../services/note.service";
 
 function NoteList() {
-  const currentUser = authService.getCurrentUser();
   const [notes, setNotes] = useState([]);
   useEffect(() => {
     noteService.getNotes().then((res) => {

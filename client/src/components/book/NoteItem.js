@@ -16,8 +16,10 @@ function NoteItem(props) {
   return (
     <div className="NoteItem">
       <div className="container" onClick={clickNote}>
-        <h1>{props.note.title}</h1>
-        <h2>{new Date(props.note.updatedAt).toLocaleDateString("en-GB")}</h2>
+        <p className="title">{props.note.title}</p>
+        <p className="updatedAt">
+          {new Date(props.note.updatedAt).toLocaleDateString("en-GB")}
+        </p>
       </div>
     </div>
   );
