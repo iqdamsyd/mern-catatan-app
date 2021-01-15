@@ -252,11 +252,15 @@ body {
 }
 
 /* NoteSearch */
-/* .NoteSearch {
-  /* min-height: 80px;
-} */
 
 .NoteSearch .container {
+  padding: 0px;
+}
+
+.NoteSearch .xs {
+  display: grid;
+  grid-template-columns: 11fr 1fr;
+  gap: 20px;
   padding: 0px;
 }
 
@@ -271,6 +275,10 @@ body {
 
 .NoteSearch input:focus {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.NoteSearch img {
+  padding-top: 10px;
 }
 
 /* NoteList */
