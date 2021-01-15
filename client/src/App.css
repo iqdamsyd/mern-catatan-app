@@ -16,7 +16,10 @@
 
 body {
   margin: auto;
-  font-family: "montserratbold";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  background-color: var(--background-color);
 }
 
 * {
@@ -26,7 +29,7 @@ body {
 }
 
 :root {
-  --landing-background-color: #8d5986;
+  --background-color: #64375e;
   --accent-color: #d6b02e;
   --text-light-color: #fff;
   --text-dark-color: #666;
@@ -55,7 +58,7 @@ body {
 
 .Landing {
   height: 100vh;
-  background-color: var(--landing-background-color);
+  /* background-color: var(--landing-background-color); */
   color: #fff;
 }
 
@@ -99,7 +102,7 @@ body {
 
 .Brand .social-media {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   flex-direction: row;
   gap: 12px;
 }
@@ -238,9 +241,9 @@ body {
 }
 
 /* NoteSearch */
-.NoteSearch {
-  /* min-height: 80px; */
-}
+/* .NoteSearch {
+  /* min-height: 80px;
+} */
 
 .NoteSearch .container {
   padding: 0px;
@@ -251,14 +254,23 @@ body {
   width: 100%;
   padding: 10px;
   border: 0;
+  border-radius: 3px;
   outline: none;
+}
+
+.NoteSearch input:focus {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* NoteList */
 .NoteList {
   height: 100%;
   max-height: 74vh;
+  /* border: 0.1px solid #888; */
+  border-radius: 3px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .NoteList .container {
@@ -269,8 +281,9 @@ body {
 /* NoteItem */
 .NoteItem {
   width: 100%;
-  background-color: rgb(68, 6, 55);
-  border-bottom: 0.5px solid #fff;
+  /* background-color: rgb(68, 6, 55); */
+  border-bottom: 0.5px solid #222;
+  font-family: "montserratbold";
   color: #fff;
 }
 
@@ -289,11 +302,20 @@ body {
   opacity: 0.5;
 }
 
+.NoteItem:hover {
+  background-color: rgb(68, 6, 55);
+}
+
+.NoteItem .selected {
+  background-color: rgb(68, 6, 55);
+}
+
 /* NoteBar */
 .NoteBar {
   /* min-height: 80px;
   align-self: flex-start;
   border-bottom: 0.5px solid #fff; */
+  font-family: "montserratbold";
 }
 
 .NoteBar .container {
@@ -335,28 +357,50 @@ body {
 }
 
 .Paper input[name="title"] {
-  font-size: 16px;
   width: 100%;
-  background-color: #64375e;
-  border: 1px solid #fff;
-  color: var(--ligth-text-color);
+  border: none;
+  border-radius: 5px;
   margin-bottom: 20px;
   padding: 10px;
+  outline: none;
+  background-color: #77376f;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  color: var(--ligth-text-color);
+  font-family: "montserratbold";
+  font-size: 16px;
+}
+
+.Paper input[name="title"]:focus {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.Paper input[name="title"]::placeholder {
+  color: darkgrey;
 }
 
 .Paper textarea {
-  font-size: 16px;
   width: 100%;
   height: 67vh;
-  background-color: #64375e;
-  border: 1px solid #fff;
+  border: none;
+  border-radius: 5px;
   outline: none;
-  color: var(--ligth-text-color);
   margin-bottom: 20px;
   padding: 10px;
+  background-color: #77376f;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  color: var(--ligth-text-color);
+  font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
+}
+
+.Paper textarea:focus {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.Paper textarea::placeholder {
+  color: darkgrey;
 }
 
 .Paper .container .flex {
@@ -367,6 +411,7 @@ body {
 .Paper input[type="submit"] {
   width: 120px;
   height: 50px;
+  margin-right: 10px;
   padding: 15px 20px;
   border: 0;
   border-radius: 25px;
@@ -377,6 +422,20 @@ body {
   font-family: "montserratbold";
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
   cursor: pointer;
+}
+
+.Paper input[type="submit"]:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.Paper input[type="submit"]:disabled:hover {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.Paper input[type="submit"]:hover {
+  opacity: 0.8;
 }
 
 /* .Paper .addNote {
