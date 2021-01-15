@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import NoteItem from "./NoteItem";
-import noteService from "../../services/note.service";
 
-function NoteList() {
-  const [notes, setNotes] = useState([]);
-  useEffect(() => {
-    noteService.getNotes().then((res) => {
-      setNotes(res.data.payload.notes);
-    });
-  }, []);
-
+function NoteList(props) {
+  const handleChangeSelectedItem = props.handleChangeSelectedItem;
+  const selectedNote = props.selectedNote;
   return (
     <div className="NoteList">
       <div className="container">
-        {notes
+        {props.noteList
           .sort((a, b) => (a.updatedAt > b.updatedAt ? -1 : 1))
           .map((note) => (
-            <NoteItem key={note._id} note={note} />
+            <NoteItem
+              key={note._id}
+              note={note}
+              handleChangeSelectedItem={handleChangeSelectedItem}
+              selectedNote={selectedNote}
+            />
           ))}
       </div>
     </div>

@@ -13,7 +13,7 @@ const createNote = (params) => {
 };
 
 const updateNote = (params) => {
-  const { note_id, title, content } = params;
+  const { _id: note_id, title, content } = params;
   return axios.put(
     API_URL + `/${note_id}`,
     { title, content },

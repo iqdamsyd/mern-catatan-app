@@ -1,11 +1,6 @@
-import React, { useState } from "react";
-import authService from "../../services/auth.service";
+import React from "react";
 
 function NoteBar(props) {
-  const handleLogout = () => {
-    authService.logout();
-    props.onUserLoggedOut();
-  };
   return (
     <div className="NoteBar">
       <div className="container flex">
@@ -14,9 +9,9 @@ function NoteBar(props) {
           src={process.env.PUBLIC_URL + "/sidebar.png"}
           width="20px"
           alt="img"
-          onClick={props.onSidebarToggle}
+          onClick={props.handleToggleSidebar}
         />
-        <p>Hello, user</p>
+        <p>Hello, {props.username}</p>
         <img
           id="add"
           className="btn"
@@ -24,14 +19,17 @@ function NoteBar(props) {
           src={process.env.PUBLIC_URL + "/add.png"}
           width="20px"
           alt="img"
+          onClick={props.handleCreateNew}
         />
         <img
           className="btn"
           src={process.env.PUBLIC_URL + "/trash.png"}
           width="20px"
           alt="img"
+          onClick={() => props.handleDeleteNote(props.selectedNote._id)}
         />
-        <span className="btn" onClick={handleLogout}>
+        {props.deleted.length ? <small>{props.deleted}</small> : null}
+        <span className="btn" onClick={props.onUserLoggedOut}>
           Logout
         </span>
       </div>

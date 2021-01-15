@@ -1,41 +1,31 @@
-import React, { useContext, useEffect, useState } from "react";
-import NoteContext from "../../hooks/NoteContext";
-import noteService from "../../services/note.service";
-import useForm from "../../hooks/useForm";
+import React from "react";
 
 function Paper(props) {
-  const { note, setNote } = useContext(NoteContext);
-  const { values, setValues, handleChange, handleSubmit } = useForm(
-    {
-      note_id: "",
-      title: "",
-      content: "",
-    },
-    note._id ? noteService.updateNote : noteService.createNote,
-    "note"
-  );
-
-  useEffect(() => {
-    setValues({ note_id: note._id, title: note.title, content: note.content });
-  }, [note._id, note.title, note.content, setValues]);
-
   return (
     <div className="Paper">
       <div className="container">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={props.handleSubmit}>
           <input
+            ref={props.inputRef}
             type="text"
             name="title"
-            value={values.title}
-            onChange={handleChange}
+            value={props.selectedNote.title}
+            onChange={props.handleChange}
+            placeholder="Title.."
             autoFocus
           />
           <textarea
             name="content"
-            value={values.content}
-            onChange={handleChange}
+            value={props.selectedNote.content}
+            onChange={props.handleChange}
+            placeholder="Content.."
           ></textarea>
-          <input type="submit" value="Save" />
+          <input
+            type="submit"
+            value="Save"
+            disabled={!props.selectedNote.title}
+          />
+          {props.saved.length ? <small>{props.saved}</small> : null}
         </form>
       </div>
     </div>

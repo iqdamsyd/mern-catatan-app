@@ -1,43 +1,186 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NoteSearch from "./NoteSearch";
 import NoteBar from "./NoteBar";
 import NoteList from "./NoteList";
 import Paper from "./Paper";
+import noteService from "../../services/note.service";
+import authService from "../../services/auth.service";
+import useFocus from "../../hooks/useFocus";
 
-import NoteContext from "../../hooks/NoteContext";
+const noteObj = {
+  _id: "",
+  title: "",
+  content: "",
+  createdAt: "",
+  updatedAt: "",
+};
+
+const initialSearch = { isSearch: false, keyword: "" };
 
 const xs_devices = 575.98;
 
 function Book(props) {
-  const [note, setNote] = useState({ title: "", content: "" });
-  const onUserLoggedOut = props.onUserLoggedOut;
+  const [notes, setNotes] = useState([]);
+  const [searchedNotes, setSearchedNotes] = useState();
+  const [selectedNote, setSelectedNote] = useState(noteObj);
+
+  //
+  const [search, setSearch] = useState(initialSearch);
+  const [inputRef, setInputFocus] = useFocus();
+  const [deleted, setDeleted] = useState("");
+  const [saved, setSaved] = useState("");
   const [isOpen, setIsOpen] = useState(
-    window.innerWidth > 575.98 ? true : false
+    window.innerWidth > xs_devices ? true : false
   );
 
-  const onSidebarToggle = () => {
-    setIsOpen(!isOpen);
+  // note search events
+  const handleSearchChange = (event) => {
+    setSearch({
+      isSearch: true,
+      keyword: event.target.value,
+    });
+  };
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const searchRegex = new RegExp(search.keyword.toLocaleLowerCase());
+    const copy = notes.map((note) => {
+      return {
+        ...note,
+        stringArr: note.title.split(" ").concat(note.content.split(" ")),
+        textString: note.title + " " + note.content,
+      };
+    });
+    const findIt = copy.filter(
+      (note) => note.textString.toLocaleLowerCase().search(searchRegex) > -1
+    );
+    setSearchedNotes(findIt);
+  };
+  useEffect(() => {
+    if (search.keyword === "") {
+      setSearch(initialSearch);
+      setSearchedNotes(notes);
+    }
+  }, [search.keyword, notes]);
+
+  // note list events
+  const handleChangeSelectedItem = (note) => {
+    setSelectedNote(note);
   };
 
+  // note bar events
+  const handleToggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+  const handleCreateNew = () => {
+    setSelectedNote(noteObj);
+    setSearch(initialSearch);
+    setSearchedNotes(notes);
+    setTimeout(() => {
+      setInputFocus();
+    }, 50);
+  };
+  const handleDeleteNote = (note_id) => {
+    noteService.deleteNote(note_id);
+    noteService.getNotes().then((res) => {
+      const updatedNotes = res.data.payload.notes;
+      setNotes(updatedNotes);
+      setSearchedNotes(updatedNotes);
+
+      setSelectedNote(noteObj);
+      setDeleted("Deleted!");
+      setTimeout(() => {
+        setDeleted("");
+      }, 2000);
+    });
+  };
+  const onUserLoggedOut = () => {
+    authService.logout();
+    props.onUserLoggedOut();
+  };
+
+  // paper events
+  const handleChange = (event) => {
+    setSelectedNote((note) => ({
+      ...note,
+      [event.target.name]: event.target.value,
+    }));
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // update
+    if (selectedNote._id) {
+      console.log("update");
+      noteService.updateNote(selectedNote).then((res) => {
+        noteService.getNotes().then((res) => {
+          const updatedNotes = res.data.payload.notes;
+          setNotes(updatedNotes);
+        });
+      });
+    }
+    // create
+    if (!selectedNote._id) {
+      console.log("create");
+      noteService.createNote(selectedNote).then((res) => {
+        const newNote = res.data.payload.notes[0];
+        setSelectedNote(newNote);
+        noteService.getNotes().then((res) => {
+          const updatedNotes = res.data.payload.notes;
+          setNotes(updatedNotes);
+        });
+      });
+    }
+    setSaved("Saved!");
+    setTimeout(() => {
+      setSaved("");
+    }, 2000);
+  };
+
+  useEffect(() => {
+    noteService.getNotes().then((res) => {
+      setNotes(res.data.payload.notes);
+    });
+  }, []);
+
+  // notes to be displayed
+  let noteList = notes;
+  if (search.isSearch) {
+    noteList = searchedNotes;
+  }
+
+  let username = "iqdam";
   return (
     <div className="Book">
       <div className={isOpen ? "container grid" : "container"}>
-        <NoteContext.Provider value={{ note, setNote }}>
-          <section
-            className="sidebar"
-            style={{ display: !isOpen ? "none" : "" }}
-          >
-            <NoteSearch />
-            <NoteList />
-          </section>
-          <section className="main">
-            <NoteBar
-              onUserLoggedOut={onUserLoggedOut}
-              onSidebarToggle={onSidebarToggle}
-            />
-            <Paper />
-          </section>
-        </NoteContext.Provider>
+        <section className="sidebar" style={{ display: !isOpen ? "none" : "" }}>
+          <NoteSearch
+            search={search}
+            handleSearchChange={handleSearchChange}
+            handleSearchSubmit={handleSearchSubmit}
+          />
+          <NoteList
+            noteList={noteList}
+            selectedNote={selectedNote}
+            handleChangeSelectedItem={handleChangeSelectedItem}
+          />
+        </section>
+        <section className="main">
+          <NoteBar
+            username={username}
+            selectedNote={selectedNote}
+            deleted={deleted}
+            handleToggleSidebar={handleToggleSidebar}
+            handleCreateNew={handleCreateNew}
+            handleDeleteNote={handleDeleteNote}
+            onUserLoggedOut={onUserLoggedOut}
+          />
+          <Paper
+            inputRef={inputRef}
+            selectedNote={selectedNote}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            saved={saved}
+          />
+        </section>
       </div>
     </div>
   );
