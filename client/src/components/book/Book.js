@@ -33,6 +33,12 @@ function Book(props) {
     window.innerWidth > xs_devices ? true : false
   );
 
+  //
+  const [tokenExpError, setTokenExpError] = useState(false);
+  const handleRefreshToken = () => {
+    authService.refreshToken(props.currentUser.refreshToken);
+  };
+
   // note search events
   const handleSearchChange = (event) => {
     setSearch({
@@ -81,17 +87,22 @@ function Book(props) {
   };
   const handleDeleteNote = (note_id) => {
     noteService.deleteNote(note_id);
-    noteService.getNotes().then((res) => {
-      const updatedNotes = res.data.payload.notes;
-      setNotes(updatedNotes);
-      setSearchedNotes(updatedNotes);
+    noteService
+      .getNotes()
+      .then((res) => {
+        const updatedNotes = res.data.payload.notes;
+        setNotes(updatedNotes);
+        setSearchedNotes(updatedNotes);
 
-      setSelectedNote(noteObj);
-      setDeleted("Deleted!");
-      setTimeout(() => {
-        setDeleted("");
-      }, 2000);
-    });
+        setSelectedNote(noteObj);
+        setDeleted("Deleted!");
+        setTimeout(() => {
+          setDeleted("");
+        }, 2000);
+      })
+      .catch((err) => {
+        setTokenExpError(true);
+      });
   };
   const onUserLoggedOut = () => {
     authService.logout();
@@ -109,36 +120,54 @@ function Book(props) {
     event.preventDefault();
     // update
     if (selectedNote._id) {
-      console.log("update");
-      noteService.updateNote(selectedNote).then((res) => {
-        noteService.getNotes().then((res) => {
-          const updatedNotes = res.data.payload.notes;
-          setNotes(updatedNotes);
+      noteService
+        .updateNote(selectedNote)
+        .then((res) => {
+          noteService.getNotes().then((res) => {
+            const updatedNotes = res.data.payload.notes;
+            setNotes(updatedNotes);
+          });
+          setSaved("Saved!");
+          setTimeout(() => {
+            setSaved("");
+          }, 2000);
+        })
+        .catch((err) => {
+          setTokenExpError(true);
         });
-      });
     }
     // create
     if (!selectedNote._id) {
       console.log("create");
-      noteService.createNote(selectedNote).then((res) => {
-        const newNote = res.data.payload.notes[0];
-        setSelectedNote(newNote);
-        noteService.getNotes().then((res) => {
-          const updatedNotes = res.data.payload.notes;
-          setNotes(updatedNotes);
+      noteService
+        .createNote(selectedNote)
+        .then((res) => {
+          const newNote = res.data.payload.notes[0];
+          setSelectedNote(newNote);
+          noteService.getNotes().then((res) => {
+            const updatedNotes = res.data.payload.notes;
+            setNotes(updatedNotes);
+          });
+          setSaved("Saved!");
+          setTimeout(() => {
+            setSaved("");
+          }, 2000);
+        })
+        .catch((err) => {
+          setTokenExpError(true);
         });
-      });
     }
-    setSaved("Saved!");
-    setTimeout(() => {
-      setSaved("");
-    }, 2000);
   };
 
   useEffect(() => {
-    noteService.getNotes().then((res) => {
-      setNotes(res.data.payload.notes);
-    });
+    noteService
+      .getNotes()
+      .then((res) => {
+        setNotes(res.data.payload.notes);
+      })
+      .catch((err) => {
+        setTokenExpError(true);
+      });
   }, []);
 
   // notes to be displayed
@@ -173,6 +202,13 @@ function Book(props) {
             handleDeleteNote={handleDeleteNote}
             onUserLoggedOut={onUserLoggedOut}
           />
+          {tokenExpError ? (
+            <div className="alert">
+              Token has been expired,{" "}
+              <button onClick={handleRefreshToken}>click here</button> to
+              refresh token.
+            </div>
+          ) : null}
           <Paper
             inputRef={inputRef}
             selectedNote={selectedNote}

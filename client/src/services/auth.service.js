@@ -47,9 +47,10 @@ const refreshToken = (refreshToken) => {
       if (response.data.payload.accessToken) {
         localStorage.setItem("user", JSON.stringify(response.data.payload));
       }
-      return response.data;
+      window.location.reload();
     })
     .catch((error) => {
+      console.log("error from service");
       console.log(error.response);
     });
 };

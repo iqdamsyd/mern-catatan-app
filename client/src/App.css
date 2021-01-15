@@ -240,6 +240,17 @@ body {
   gap: 20px;
 }
 
+.Book .alert {
+  margin-top: 40px;
+  background-color: red;
+  width: fit-content;
+  padding: 5px;
+}
+
+.Book .alert button {
+  background-color: none;
+}
+
 /* NoteSearch */
 /* .NoteSearch {
   /* min-height: 80px;
@@ -412,6 +423,7 @@ body {
   width: 120px;
   height: 50px;
   margin-right: 10px;
+  margin-bottom: 20px;
   padding: 15px 20px;
   border: 0;
   border-radius: 25px;
