@@ -10,7 +10,7 @@ const signAccessToken = (userId) => {
 
     const secret = accessTokenSecret;
     const options = {
-      expiresIn: "15s",
+      expiresIn: "1h",
       issuer: "catatan.com",
       audience: userId.toString(),
     };
@@ -58,14 +58,20 @@ const signRefreshToken = (userId) => {
         console.log(err.message);
         reject(createError.InternalServerError());
       }
-      client.SET(userId.toString(), token, "EX", 30, (err, reply) => {
-        if (err) {
-          console.log(err.message);
-          reject(createError.InternalServerError());
-          return;
+      client.SET(
+        userId.toString(),
+        token,
+        "EX",
+        60 * 60 * 24 * 365,
+        (err, reply) => {
+          if (err) {
+            console.log(err.message);
+            reject(createError.InternalServerError());
+            return;
+          }
+          resolve(token);
         }
-        resolve(token);
-      });
+      );
     });
   });
 };
