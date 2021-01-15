@@ -13,7 +13,7 @@ const LoginForm = (props) => {
     authService
       .login(values)
       .then((response) => {
-        props.onUserLoggedIn(response);
+        props.onUserLoggedIn(values.username, response);
       })
       .catch((error) => {
         setErrorMsg(error);

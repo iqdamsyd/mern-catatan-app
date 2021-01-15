@@ -36,7 +36,8 @@ function Book(props) {
   //
   const [tokenExpError, setTokenExpError] = useState(false);
   const handleRefreshToken = () => {
-    authService.refreshToken(props.currentUser.refreshToken);
+    const refToken = authService.getCurrentUser().refreshToken;
+    authService.refreshToken(refToken);
   };
 
   // note search events
@@ -176,7 +177,7 @@ function Book(props) {
     noteList = searchedNotes;
   }
 
-  let username = "iqdam";
+  let username = localStorage.getItem("catatan-username");
   return (
     <div className="Book">
       <div className={isOpen ? "container grid" : "container"}>
@@ -185,6 +186,7 @@ function Book(props) {
             search={search}
             handleSearchChange={handleSearchChange}
             handleSearchSubmit={handleSearchSubmit}
+            handleToggleSidebar={handleToggleSidebar}
           />
           <NoteList
             noteList={noteList}

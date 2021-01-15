@@ -13,7 +13,7 @@ const SignupForm = (props) => {
     authService
       .register(values)
       .then((response) => {
-        props.onUserLoggedIn(response);
+        props.onUserLoggedIn(values.username, response);
       })
       .catch((error) => {
         setErrorMsg(error);

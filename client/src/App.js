@@ -8,12 +8,14 @@ import AuthService from "./services/auth.service";
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
-  const onUserLoggedIn = (token) => {
+  const onUserLoggedIn = (username, token) => {
     setCurrentUser(token);
+    localStorage.setItem("catatan-username", username);
   };
 
   const onUserLoggedOut = () => {
     setCurrentUser(null);
+    localStorage.removeItem("catatan-username");
   };
 
   useEffect(() => {
@@ -23,13 +25,7 @@ const App = () => {
 
   let toRender;
   if (currentUser) {
-    toRender = (
-      <Book
-        user={currentUser}
-        currentUser={currentUser}
-        onUserLoggedOut={onUserLoggedOut}
-      />
-    );
+    toRender = <Book onUserLoggedOut={onUserLoggedOut} />;
   } else {
     toRender = <Landing onUserLoggedIn={onUserLoggedIn} />;
   }
