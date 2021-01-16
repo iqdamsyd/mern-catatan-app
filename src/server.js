@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const path = require("path");
 
 require("./libs/redis");
 const config = require("./libs/config");
@@ -21,11 +22,18 @@ app.use(bodyParser.json());
 if (config.NODE_ENV !== "test") app.use(morgan("tiny"));
 
 // App Routes
-app.get("/", (req, res) => {
-  res.send("Hello from express");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello from express");
+// });
 app.use("/api/users", userRoutes, jsonFormatter);
 app.use("/api/notes", verifyAccessToken, noteRoutes, jsonFormatter);
+
+if (config.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 // Log Errors
 // Client Errors
