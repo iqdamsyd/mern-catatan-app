@@ -1,6 +1,6 @@
 const redis = require("redis");
 
-let client;
+let client = redis.createClient(process.env.REDIS_URL);
 
 if (process.env.NODE_ENV === "development" || "test") {
   client = redis.createClient({
@@ -9,9 +9,9 @@ if (process.env.NODE_ENV === "development" || "test") {
   });
 }
 
-if (process.env.NODE_ENV === "production") {
-  client = redis.createClient(process.env.REDIS_URL);
-}
+// if (process.env.NODE_ENV === "production") {
+//   client = redis.createClient(process.env.REDIS_URL);
+// }
 
 client.on("connect", () => {
   console.log("Client connected to redis..");
