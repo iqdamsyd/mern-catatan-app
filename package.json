@@ -4,7 +4,7 @@
   "description": "Catatan is a free simple note web application that lets you manage your notes at ease.",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node src/server.js",
+    "start": "node src/server.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "cross-env NODE_ENV=test mocha --silent --timeout 10000",
     "server": "cross-env NODE_ENV=development nodemon src/server.js",
