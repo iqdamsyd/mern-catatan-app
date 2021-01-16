@@ -1,14 +1,16 @@
 const redis = require("redis");
 
+let client;
+
 if (process.env.NODE_ENV === "development" || "test") {
-  const client = redis.createClient({
+  client = redis.createClient({
     port: 6379,
     host: "127.0.0.1",
   });
 }
 
 if (process.env.NODE_ENV === "production") {
-  redis.createClient(process.env.REDIS_URL);
+  client = redis.createClient(process.env.REDIS_URL);
 }
 
 client.on("connect", () => {
